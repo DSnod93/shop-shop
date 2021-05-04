@@ -1,22 +1,53 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from '@apollo/react-hooks';
 
 import ProductItem from "../ProductItem";
 import { QUERY_PRODUCTS } from "../../utils/queries";
-import spinner from "../../assets/spinner.gif"
+import spinner from "../../assets/spinner.gif";
+import { useStoreContext } from '../../utils/GlobalState';
+import { UPDATE_PRODUCTS } from '../../utils/actions';
 
-function ProductList({ currentCategory }) {
-  const { loading, data } = useQuery(QUERY_PRODUCTS);
+// function ProductList({ currentCategory }) {
+//   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  const products = data?.products || [];
+//   const products = data?.products || [];
 
-  function filterProducts() {
-    if (!currentCategory) {
-      return products;
-    }
+//   function filterProducts() {
+//     if (!currentCategory) {
+//       return products;
+//     }
 
-    return products.filter(product => product.category._id === currentCategory);
+//     return products.filter(product => product.category._id === currentCategory);
+//   }
+
+function ProductList() {
+
+const [state, dispatch] = useStoreContext();
+
+const { currentCategory } = state;
+
+const { loading, data } = useQuery(QUERY_PRODUCTS);
+
+const products = data?.products || [];
+
+useEffect(() => {
+  if (data) {
+    dispatch({
+      type: UPDATE_PRODUCTS,
+      products: data.products
+    });
   }
+}, [data, dispatch]);
+
+function filterProducts() {
+  if (!currentCategory) {
+    return state.products;
+  }
+
+
+  return state.products.filter(product => product.category._id === currentCategory);
+}
+
 
   return (
     <div className="my-2">
@@ -41,6 +72,8 @@ function ProductList({ currentCategory }) {
       <img src={spinner} alt="loading" />: null}
     </div>
   );
-}
+ }
+      
+
 
 export default ProductList;
