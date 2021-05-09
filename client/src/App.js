@@ -12,7 +12,7 @@ import Nav from "./components/Nav";
 // import { StoreProvider } from './utils/GlobalState';
 import OrderHistory from "./pages/OrderHistory";
 import Success from './pages/Success';
-import { Provider } from 'react-redux';
+import { Provider } from 'react-redux'; // makes Redux store available to rest of app
 import store from './redux/store';
 
 const client = new ApolloClient({
