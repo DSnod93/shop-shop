@@ -9,4 +9,6 @@ Shop Shop is an e-commerce application that allows users to purchase, update, an
 ## Usage 
 `npm start` to run the app
 
+
 ## Deployed Application
+https://fierce-beyond-90692.herokuapp.com/
